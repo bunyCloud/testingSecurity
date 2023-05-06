@@ -8,13 +8,13 @@ import binascii
 import os
 import sys
 import time
-import numpy as np
+import cupy as cp
 
 DATABASE = r'database/11_13_2022/'
 
-@jit(target_backend='cuda')
+@jit(target_backend='numba.cuda')
 def generate_private_key():
-    return binascii.hexlify(np.random.bytes(32)).decode('utf-8').upper()
+    return binascii.hexlify(cp.random.bytes(32)).decode('utf-8').upper()
 
 def private_key_to_public_key(private_key, fastecdsa):
     if fastecdsa:
